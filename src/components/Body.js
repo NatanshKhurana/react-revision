@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import useAllRestaurants from "../utils/useAllRestaurants";
 import useOnlineStatus from "../utils/useOnlineStatus";
 // import { withPromotedLabel } from "./ResCard";
+import UserContext from "../utils/UserContext";
+import { useContext } from "react";
 
 const Body = () => {
   const resListData = useAllRestaurants();
@@ -13,6 +15,7 @@ const Body = () => {
   const [searchRes, setSearchRes] = useState("");
   const isOnline = useOnlineStatus();
   // const ResCardPromoted = withPromotedLabel(ResCard);
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   console.log(isOnline);
 
@@ -57,6 +60,12 @@ const Body = () => {
         >
           Top Rated Restaurants
         </button>
+        <input
+          className="bg-gray-600 ml-4 p-2 rounded text-white"
+          placeholder="enter name"
+          value={loggedInUser}
+          onChange={(e) => setUserName(e.target.value)}
+        />
       </div>
       <div className="resData flex flex-wrap">
         {filteredListData.map((restaurant) => (

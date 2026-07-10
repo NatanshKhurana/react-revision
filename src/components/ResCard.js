@@ -1,7 +1,10 @@
 import { CLOUD_IMG_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
+import { useContext } from "react";
 
 const ResCard = ({ resData }) => {
   const { name, avgRating, cuisines, cloudinaryImageId, sla } = resData.info;
+  const userData = useContext(UserContext);
   return (
     <div className="card-container w-80 hover:border-2 rounded-3xl p-2 cursor-pointer">
       <div className="card-img-container">
@@ -16,6 +19,7 @@ const ResCard = ({ resData }) => {
           {avgRating} - {sla.slaString}
         </div>
         <div>{cuisines.join(", ")}</div>
+        <div className="font-bold text-xl">{userData.loggedInUser}</div>
       </div>
     </div>
   );
