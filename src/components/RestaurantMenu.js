@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { menuMockData } from "../utils/menuMockData";
 import { useParams } from "react-router-dom";
+import ResCategory from "./ResCategory";
 
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
@@ -31,22 +32,26 @@ const RestaurantMenu = () => {
   const { name, slugs, cuisines, costForTwoMessage } =
     resInfo?.cards[2]?.card?.card?.info;
 
-  const { itemCards } =
-    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card
-      ?.categories[0];
+  const categories =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+    
+
+
+  const nestedItemCategory = categories.filter((cat) => {
+    return cat?.card?.card?.["@type"].includes("ItemCategory");
+  });
+
+  // console.log(nestedItemCategory);
 
   return (
-    <div className="p-4">
-      <h1 className="text-4xl">
-        {name} - {slugs.city}
-      </h1>
-      <h2 className="text-2xl">
-        {cuisines.join(", ")} --- {costForTwoMessage}
-      </h2>
-      <h2 className="text-xl">Restaurant menu</h2>
-      {itemCards.map((item) => (
-        <div key={item?.card?.info?.id}>{item?.card?.info?.name}</div>
-      ))}
+    <div>
+      <div className="header py-6 text-center font-bold">
+        <h1 className="text-5xl">{name}</h1>
+        <p className="py-5 text-2xl">
+          {cuisines.join(", ")} - {costForTwoMessage}
+        </p>
+      </div>
+      <ResCategory resCategories={nestedItemCategory} />
     </div>
   );
 };
