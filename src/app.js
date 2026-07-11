@@ -32,16 +32,16 @@ const App = () => {
   return (
     <Provider store={appStore}>
       {/* default user */}
-      {/* <UserContext.Provider value={{ loggedInUser: userName, setUserName }}> */}
-        {/* Natansh */}
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        {/* {/* Natansh */}
         <div className="app">
-          {/* <UserContext.Provider value={{loggedInUser:"Anita"}}> */}
+          <UserContext.Provider value={{loggedInUser:"Anita"}}>
           {/* Anita */}
           <Header />
-          {/* </UserContext.Provider> */}
+          </UserContext.Provider>
           <Outlet />
         </div>
-      {/* </UserContext.Provider> */}
+      </UserContext.Provider>
     </Provider>
   );
 };
