@@ -6,8 +6,8 @@ import { addItem } from "../store/cartSlice";
 const ItemList = ({ items }) => {
 //   console.log(items);
 const dispatch = useDispatch();
-const handleAdd = () =>{
-  dispatch(addItem("pizza"));
+const handleAddItem = (item) =>{
+  dispatch(addItem(item))
 }
 
   return (
@@ -29,7 +29,7 @@ const handleAdd = () =>{
                 src={CLOUD_IMG_URL + item?.card?.info?.imageId}
                 className="w-38 h-34"
               />
-              <button className=" absolute bg-black -bottom-4 hover:bg-gray-600 left-10 cursor-pointer text-white py-2 rounded-2xl text-lg font-bold px-5" onClick={handleAdd}>
+              <button className=" absolute bg-black -bottom-4 hover:bg-gray-600 left-10 cursor-pointer text-white py-2 rounded-2xl text-lg font-bold px-5" onClick={() => handleAddItem(item)}>
                 ADD
               </button>
             </div>
