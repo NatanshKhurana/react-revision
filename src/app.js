@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useEffect, useState} from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -14,6 +14,8 @@ import { useContext } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import RestaurantMenu from "./components/RestaurantMenu";
 // import Grocery from "./components/Grocery";
+import { Provider } from "react-redux";
+import appStore from "./store/appStore";
 
 const Grocery = lazy(() => import("./components/Grocery"));
 const About = lazy(() => import("./components/About"));
@@ -23,22 +25,24 @@ const App = () => {
   const [userName, setUserName] = useState(userData.loggedInUser);
   useEffect(() => {
     const data = {
-      name : "Natansh",
-    }
+      name: "Natansh",
+    };
     setUserName(data.name);
   }, []);
   return (
-    // default user
-    <UserContext.Provider value={{loggedInUser : userName, setUserName}}>
-      {/* Natansh */}
-      <div className="app">
-      <UserContext.Provider value={{loggedInUser:"Anita"}}>
-        {/* Anita */}
-        <Header />
-      </UserContext.Provider>
-      <Outlet />
-    </div>
-    </UserContext.Provider>
+    <Provider store={appStore}>
+      {/* default user */}
+      {/* <UserContext.Provider value={{ loggedInUser: userName, setUserName }}> */}
+        {/* Natansh */}
+        <div className="app">
+          {/* <UserContext.Provider value={{loggedInUser:"Anita"}}> */}
+          {/* Anita */}
+          <Header />
+          {/* </UserContext.Provider> */}
+          <Outlet />
+        </div>
+      {/* </UserContext.Provider> */}
+    </Provider>
   );
 };
 
@@ -48,12 +52,16 @@ const AppRoute = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path:"/",
-        element: <Body />
+        path: "/",
+        element: <Body />,
       },
       {
         path: "/about",
-        element: <Suspense fallback={<h1 className="text-7xl">Loading........</h1>}><About /></Suspense>,
+        element: (
+          <Suspense fallback={<h1 className="text-7xl">Loading........</h1>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
@@ -61,12 +69,16 @@ const AppRoute = createBrowserRouter([
       },
       {
         path: "/restaurant/:resId",
-        element : <RestaurantMenu />
+        element: <RestaurantMenu />,
       },
       {
-        path : "/grocery",
-        element : <Suspense fallback={<h1 className="text-2xl">Loading......</h1>}><Grocery /></Suspense>
-      }
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<h1 className="text-2xl">Loading......</h1>}>
+            <Grocery />
+          </Suspense>
+        ),
+      },
     ],
     errorElement: <RouteError />,
   },
