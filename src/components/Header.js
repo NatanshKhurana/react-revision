@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { useContext } from "react";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnValue, setBtnValue] = useState("Login");
   const isOnline = useOnlineStatus();
   const userData = useContext(UserContext);
   // console.log(userData);
+  const cartItems = useSelector((store) => store.cart.items);
   
 
   {/* if no dependency array is provided in useEffect, then every time the component will be re-rendered the useEffect hook will be called **/ }
@@ -25,12 +27,13 @@ const Header = () => {
       <div className="logo">
         <img src={LOGO_URL} className="h-30 w-30" alt="logo" />
       </div>
-      <div className="nav_items w-lg content-center">
-        <ul className="flex mr-5 justify-between">
+      <div className="nav_items w-2xl content-center">
+        <ul className="flex mr-4 justify-between">
           <li><Link to="/">Home</Link></li>
           {isOnline ? <li>Online ✅</li> : <li>Offline ❌</li>}
           <li><Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
+          <li className="font-bold mx-4">Cart({cartItems.length})</li>
           <li><Link to="/grocery">Grocery</Link></li>
           <button
             className="border py-2 px-4 rounded-xl cursor-pointer bg-gray-500 text-white"
